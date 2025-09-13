@@ -11,6 +11,10 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 
+#dataset path
+path = './src/text_processing/dataset/aclImdb/train'  # adapte si besoin
+
+
 #selecting device
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 torch.use_deterministic_algorithms(True)
@@ -20,10 +24,10 @@ review_list = []
 label_list = []
 for label in ['pos', 'neg']:
     for fname in tqdm(os.listdir(
-        f'./aclImdb/train/{label}/')):
+        f'{path}/{label}/')):
         if 'txt' not in fname:
             continue
-        with open(os.path.join(f'./aclImdb/train/{label}/',
+        with open(os.path.join(f'{path}/{label}/',
                                fname), encoding="utf8") as f:
             review_list += [f.read()]
             label_list += [label]

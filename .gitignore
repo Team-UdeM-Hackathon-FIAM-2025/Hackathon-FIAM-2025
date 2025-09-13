@@ -211,3 +211,7 @@ __marimo__/
 
 # datasets locaux (jamais versionnés)
 src/text_processing/dataset/
+
+# PyTorch model checkpoints
+*.pt
+*.pth
