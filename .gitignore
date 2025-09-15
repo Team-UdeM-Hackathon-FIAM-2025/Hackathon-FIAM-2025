@@ -210,7 +210,7 @@ __marimo__/
 .DS_Store
 
 # datasets locaux (jamais versionnés)
-src/text_processing/dataset/
+src/text_processing/text_dataset/
 
 # PyTorch model checkpoints
 *.pt
