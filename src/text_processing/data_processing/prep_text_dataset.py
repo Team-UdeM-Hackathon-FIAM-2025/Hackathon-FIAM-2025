@@ -92,6 +92,17 @@ def filter_keep_mode_cik(dataframe: pl.DataFrame) -> pl.DataFrame:
     return dataframe.filter(pl.col("cik").is_in(cik_mode))
 
 
+def add_sp500_info(dataframe, path_filter = SP500_OUTPUT_FILE):
+    df_sp500 = pl.read_parquet(path_filter)
+
+    dataframe = dataframe.join(
+        df_sp500.select(["cik", "Symbol", "Security"]),
+        on="cik",
+        how="left"
+    )
+    return dataframe
+
+
 # utils functions
 def verify_filters(dataframe, path_filter = SP500_OUTPUT_FILE): #verification function
     # 1 : Vérifier qu'aucun rf ou mgmt n'est vide
@@ -142,7 +153,11 @@ def prep_dataset():
     print("Applied df_mgmt_full filter: step 2.4 completed")
 
     df = filter_keep_mode_cik(dataframe = df) #only keep entire sequences
-    print("Applied keep_mode_cik filter: step 2.5 completed") 
+    print("Applied keep_mode_cik filter: step 2.5 completed")
+
+
+    df = add_sp500_info(dataframe = df, path_filter = SP500_OUTPUT_FILE)
+    print("Add sp500 info to dataset: step 3 completed")
 
     # utils functions
     print("Starting verification")
