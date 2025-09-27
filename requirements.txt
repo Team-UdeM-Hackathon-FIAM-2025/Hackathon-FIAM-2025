@@ -1,0 +1,7 @@
+torch
+transformers
+tqdm
+huggingface_hub
+pandas
+numpy
+onnxruntime
