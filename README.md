@@ -16,6 +16,32 @@ This repository is structured as if it were a **professional software project**,
 
 ---
 
+## 📦 Installation (requirements.txt)
+
+Make sure you have Python 3.12+ installed. Then install all dependencies with:
+
+```bash
+pip install -r requirements.txt
+```
+
+If you are working in a clean virtual environment (recommended):
+
+```bash
+python -m venv .venv
+source .venv/bin/activate    # macOS/Linux
+.venv\Scripts\activate       # Windows
+
+pip install -r requirements.txt
+```
+
+This will install all packages needed for:
+- Data processing (pandas, polars, numpy)
+- Machine learning & NLP (torch, transformers, onnxruntime)
+- Visualization (matplotlib, plotly, seaborn)
+- Utility (tqdm, dotenv, huggingface_hub)
+
+---
+
 ## 🌱 GitHub Workflow (Professional Standard)
 
 We follow a **Feature Branch Workflow**, with **Pull Requests (PRs)** and **Code Reviews**.
