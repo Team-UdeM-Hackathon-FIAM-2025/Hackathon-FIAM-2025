@@ -1,3 +1,47 @@
+# 📚 Pipeline de préparation du dataset FinBERT
+
+Ce projet contient deux étapes principales pour transformer les rapports financiers bruts en tenseurs exploitables par un modèle FinBERT.
+
+## ⚙️ Étape 1 – Préparation des données brutes
+
+Script : prep_text_dataset.py
+- Charge les fichiers text_us_YYYY.pkl (2005–2025).
+- Concatène toutes les années en un seul DataFrame Polars.
+- Filtre les rapports :
+- uniquement les tickers S&P500
+- uniquement les 10Q
+- longueur ≤ 250 000 caractères
+- rf et mgmt non vides
+- garde uniquement les CIK les plus fréquents (mode)
+- Ajoute les métadonnées du S&P500 (ticker, security).
+- Vérifie la cohérence du dataset.
+- Sauvegarde en Parquet (text_dataset.parquet).
+
+👉 Exécution :
+
+```bash
+python src/text_processing/prep_text_dataset.py
+```
+## ⚙️ Étape 2 – Tokenization & Chunking
+
+Script : prep_dataset.py
+- Charge le dataset filtré depuis Hugging Face ou un fichier parquet local.
+- Tokenize les textes avec FinBERT.
+- Découpe chaque texte en chunks de taille fixe (par défaut 256 tokens × 10 chunks).
+- Produit des tenseurs PyTorch (input_ids, attention_masks, labels).
+- Sauvegarde en .pt (finbert_chunks.pt).
+
+👉 Exécution :
+
+```bash
+python src/text_processing/prep_dataset.py \
+    --repo_id "Arthurmaffre34/predataset" \
+    --data_file "pre_dataset.parquet" \
+    --max_length 256 \
+    --n_chunks 10 \
+    --save_path "finbert_chunks.pt"
+```
+
 # 📂 Gestion des chemins (datasets)
 
 Nous utilisons **`pathlib`** pour définir des chemins **dynamiques et portables**, afin que le code fonctionne sur n’importe quelle machine sans modifier les chemins manuellement.
