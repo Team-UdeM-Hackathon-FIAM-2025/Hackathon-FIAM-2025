@@ -1,3 +1,39 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Batch Inference Script for Hackathon Model (ONNX + FinBERT Tokenizer)
+
+This script allows you to run inferences using our ONNX model hosted on Hugging Face Hub. 
+It works in two modes:
+
+1. User Mode (recommended):
+   - Provide your own dataset as a CSV with at least the following columns:
+       - date
+       - cik
+       - rf   (Risk Factor text)
+       - mgmt (Management Discussion text)
+   - Run:
+       python inference.py --input_csv mydata.csv --output_csv results.csv
+   - The script will download the ONNX model automatically, tokenize the texts, 
+     run inference, and save predictions in `results.csv` with an extra column `pred_return`.
+
+2. Demo Mode (default if no CSV is provided):
+   - If you run the script without arguments:
+       python inference.py
+   - It will generate a small example CSV (`test_input.csv`), run inference, 
+     and save results in `predictions.csv`.
+
+Key Features:
+- Automatic model download from Hugging Face (`Arthurmaffre34/Hackathon-mod-v2`)
+- Automatic tokenization and chunking of text (FinBERT tokenizer)
+- Batch inference with ONNX Runtime
+- Results saved in a CSV with an additional `pred_return` column
+
+Dependencies:
+- pandas, numpy, onnxruntime, transformers, tqdm, huggingface_hub
+
+"""
+
 import pandas as pd
 import numpy as np
 import onnxruntime as ort
