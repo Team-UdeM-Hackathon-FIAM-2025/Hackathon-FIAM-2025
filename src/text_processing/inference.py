@@ -24,7 +24,7 @@ It works in two modes:
      and save results in `predictions.csv`.
 
 Key Features:
-- Automatic model download from Hugging Face (`Arthurmaffre34/Hackathon-mod-v2`)
+- Automatic model download from Hugging Face (`Gill-Hack-25-UdeM/Text_model`)
 - Automatic tokenization and chunking of text (FinBERT tokenizer)
 - Batch inference with ONNX Runtime
 - Results saved in a CSV with an additional `pred_return` column
@@ -44,7 +44,7 @@ from huggingface_hub import hf_hub_download
 
 
 def download_model(
-    repo_id: str = "Arthurmaffre34/Hackathon-mod-v2",
+    repo_id: str = "Gill-Hack-25-UdeM/Text_model",
     filename: str = "best_model_epoch1.onnx",
     tokenizer_name: str = "yiyanghkust/finbert-pretrain"
 ):
@@ -52,7 +52,7 @@ def download_model(
     Télécharge et charge un modèle ONNX depuis Hugging Face.
 
     Args:
-        repo_id (str): ID du repo Hugging Face (par défaut: Arthurmaffre34/Hackathon-mod-v2).
+        repo_id (str): ID du repo Hugging Face (par défaut: Gill-Hack-25-UdeM/Text_model).
         filename (str): Nom du fichier modèle dans le repo.
         tokenizer_name (str): Nom du tokenizer Hugging Face à charger.
 
