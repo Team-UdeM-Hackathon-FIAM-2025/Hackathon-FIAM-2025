@@ -105,21 +105,33 @@ def run_inference_on_csv(input_csv, output_csv="predictions.csv"):
     return df
 
 
+import argparse
+
 if __name__ == "__main__":
+    # Parse arguments
+    parser = argparse.ArgumentParser(description="Batch inference with ONNX model")
+    parser.add_argument("--input_csv", type=str, help="Path to input CSV", required=False)
+    parser.add_argument("--output_csv", type=str, default="predictions.csv", help="Path to save output CSV")
+    args = parser.parse_args()
+
     session, tokenizer = download_model()
-    # Exemple de test local
-    test_data = [
-        {"date": "2005-01-06", "cik": 23217, "rf": "Risk factor indicates potential losses in overseas operations", "mgmt": "Management discussion shows strong revenue growth"},
-        {"date": "2005-01-07", "cik": 40704, "rf": "Company faces litigation risk from pending lawsuits", "mgmt": "Management expects steady market expansion"},
-        {"date": "2005-01-08", "cik": 764478, "rf": "Supply chain disruptions may affect Q2 production", "mgmt": "Management highlights efficiency improvements"},
-    ]
 
-    df_test = pd.DataFrame(test_data)
-    df_test.to_csv("test_input.csv", index=False)
-    print("✅ Fichier test_input.csv créé")
+    if args.input_csv: # Mode utilisateur : utilise un fichier CSV fourni
+        input_csv = args.input_csv
+        
+    else: # Mode démo : crée un dataset factice
+        test_data = [
+            {"date": "2005-01-06", "cik": 23217, "rf": "Risk factor indicates potential losses in overseas operations", "mgmt": "Management discussion shows strong revenue growth"},
+            {"date": "2005-01-07", "cik": 40704, "rf": "Company faces litigation risk from pending lawsuits", "mgmt": "Management expects steady market expansion"},
+            {"date": "2005-01-08", "cik": 764478, "rf": "Supply chain disruptions may affect Q2 production", "mgmt": "Management highlights efficiency improvements"},
+        ]
 
-    df_pred = run_inference_on_csv("test_input.csv", "test_output.csv")
-    df_pred.to_csv("output.csv")
+        df_test = pd.DataFrame(test_data)
+        df_test.to_csv("test_input.csv", index=False)
+        print("✅ Fichier test_input.csv créé")
+        input_csv = "test_input.csv"
 
-    print("\nRésultats avec prédictions :")
-    print(df_pred)
+    df_pred = run_inference_on_csv(input_csv, args.output_csv)
+    print("\n✅ Inference terminée ! Résultats dans :", args.output_csv)
+    print(df_pred.head())
+    print(df_pred.shape)
